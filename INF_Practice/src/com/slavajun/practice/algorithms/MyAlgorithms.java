@@ -6,7 +6,10 @@ import java.util.Arrays;
 public class MyAlgorithms {
 
     public static void main(String[] args) {
-
+        int[] ints = {1, 0, 4, 2, 6 ,5, 3, 9, 8, 11, 10};
+        System.out.println(Arrays.toString(ints));
+        quickSort(ints, 0, ints.length - 1);
+        System.out.println(Arrays.toString(ints));
     }
 
     public static int linearSearch(int[] ints, int point) {
@@ -67,50 +70,40 @@ public class MyAlgorithms {
         return new String(elements);
     }
 
-//    public static int[] quickSort(int[] ints) {
-//        int len = ints.length;
-//
-//        if (len < 2) {
-//            return ints;
-//        }
-//
-//        else if (len == 2) {
-//            if (ints[0] > ints[1]) {
-//                ints[0] ^= ints[1];
-//                ints[1] ^= ints[0];
-//                ints[0] ^= ints[1];
-//            }
-//            return ints;
-//        }
-//
-//        else {
-//            int cntLow = 0;
-//            int cntHigh = 0;
-//            int mark = ints[0];
-//
-//            for (int i = 0; i < len; i++) {
-//                if (ints[i] < mark) {
-//                    cntLow++;
-//                }
-//                else {
-//                    cntHigh++;
-//                }
-//            }
-//            int[] lowEls = new int[cntLow];
-//            int[] highEls = new int[cntHigh];
-//
-//            for (int i = 0; i < len; i++) {
-//                if (ints[i] < mark) {
-//                    lowEls[i] = ints[i];
-//                }
-//                else {
-//                    highEls[i] = ints[i];
-//                }
-//            }
-//            как то нужно сконкватенировать массивы...
-//            return quickSort(lowEls) + mark + highEls;
-//        }
-//    }
+    public static void quickSort(int[] ints, int from, int to) {
+        if (from < to) {
+            int devId = partition(ints, from, to);
+            quickSort(ints, from, devId - 1);
+            quickSort(ints, devId, to);
+        }
+    }
+
+    private static int partition(int[] ints, int from, int to) {
+        int rightId = to;
+        int leftId = from;
+
+        int pivot = leftId + (rightId - leftId) / 2;
+        while (leftId <= rightId) {
+            while (ints[leftId] < pivot) {
+                leftId++;
+            }
+            while (ints[rightId] > pivot) {
+                rightId--;
+            }
+            if (leftId <= rightId) {
+                swap(ints, rightId, leftId);
+                leftId++;
+                rightId--;
+            }
+        }
+        return leftId;
+    }
+
+    private static void swap(int[] ints, int id1, int id2) {
+        ints[id1] ^= ints[id2];
+        ints[id2] ^= ints[id1];
+        ints[id1] ^= ints[id2];
+    }
     public static long fact(int x) {
         if (x == 1) {
             return 1;
